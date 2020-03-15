@@ -1,0 +1,15 @@
+﻿{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "Token": "76c7f5a2-0f75-48fb-811e-1c2e9352a459",
+  "Resource": {
+    "ProudctAPI": "http://dev-wooliesx-recruitment.azurewebsites.net/api/resource/products",
+    "ShopperHistoryAPI": "http://dev-wooliesx-recruitment.azurewebsites.net/api/resource/shopperHistory",
+    "TrolleyCalculatorAPI": "http://dev-wooliesx-recruitment.azurewebsites.net/api/resource/trolleyCalculator"
+  }
+}
+ 
