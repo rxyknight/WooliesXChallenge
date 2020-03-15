@@ -1,8 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using WooliesXChallenge.Models;
 using WooliesXChallenge.Services.Interfaces;
 
@@ -12,7 +15,7 @@ namespace WooliesXChallenge.Services
     // Summary:
     //      This class is an implement of IPopularityService,
     //      is used to deal with any business logic related to product popularity
-    public class ProductPopularityService : IPopularityService
+    public class ProductPopularityService : IPopularityService, IHostedService, IDisposable
     {
 
         private readonly IConfiguration _configuration;
@@ -21,6 +24,7 @@ namespace WooliesXChallenge.Services
         {
             _configuration = configuration;
         }
+
         //
         // Summary:
         //     Get product popularity table
@@ -65,6 +69,37 @@ namespace WooliesXChallenge.Services
             }
             return popularityTable;
 
+        }
+
+        private Timer _timer;
+
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            Console.WriteLine("Timed Background Service is starting.");
+
+            _timer = new Timer(DoWork, null, TimeSpan.Zero,
+                TimeSpan.FromSeconds(5));
+
+            return Task.CompletedTask;
+        }
+
+        private void DoWork(object state)
+        {
+            Console.WriteLine("Timed Background Service is working.");
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            Console.WriteLine("Timed Background Service is stopping.");
+
+            _timer?.Change(Timeout.Infinite, 0);
+
+            return Task.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            _timer?.Dispose();
         }
     }
 }

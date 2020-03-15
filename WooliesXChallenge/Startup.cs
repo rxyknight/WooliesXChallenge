@@ -28,6 +28,8 @@ namespace WooliesXChallenge
             services.AddSingleton<ISortManager<Product>, ProductSortManager>();
             services.AddSingleton<IPopularityService, ProductPopularityService>();
             services.AddSingleton<ITrolleyService, TrolleyAPIService>();
+
+            services.AddHostedService<ProductPopularityService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
