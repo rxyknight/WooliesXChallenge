@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using WooliesXChallenge.Models;
 using WooliesXChallenge.Services.Interfaces;
+using WooliesXChallenge.Services.ProductSortRules;
 
 namespace WooliesXChallenge.Services
 {
@@ -12,14 +13,9 @@ namespace WooliesXChallenge.Services
     {
         private readonly Dictionary<string, IComparer<Product>> _sortRules;
 
-        public ProductSortManager(IPopularityService popularityService)
+        public ProductSortManager()
         {
             _sortRules = new Dictionary<string, IComparer<Product>>();
-            RegisterSortRule("low", new ProductSortRuleByLow());
-            RegisterSortRule("high", new ProductSortRuleByHigh());
-            RegisterSortRule("ascending", new ProductSortRuleByAscending());
-            RegisterSortRule("descending", new ProductSortRuleByDescending());
-            RegisterSortRule("recommended", new ProductSortRuleByRecommended(popularityService));
         }
         //
         // Summary:
@@ -56,6 +52,10 @@ namespace WooliesXChallenge.Services
             if (!_sortRules.ContainsKey(option))
             {
                 _sortRules.Add(option, rule);
+            }
+            else
+            {
+                _sortRules[option] = rule;
             }
         }
         //

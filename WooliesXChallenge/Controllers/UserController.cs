@@ -3,6 +3,9 @@ using WooliesXChallenge.Models;
 
 namespace WooliesXChallenge.Controllers
 {
+    //
+    // Summary:
+    //      UserController, this controller is for exercise1
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase

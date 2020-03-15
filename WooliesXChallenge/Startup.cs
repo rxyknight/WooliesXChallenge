@@ -31,7 +31,8 @@ namespace WooliesXChallenge
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+            ISortManager<Product> sortManager, IPopularityService popularityService)
         {
             if (env.IsDevelopment())
             {
@@ -45,6 +46,8 @@ namespace WooliesXChallenge
 
             app.UseHttpsRedirection();
             app.UseMvc();
+
+            ProductSortFactory.Init(sortManager, popularityService);
         }
     }
 }

@@ -24,5 +24,24 @@ namespace WooliesXChallenge.Services.Interfaces
         // Returns:
         //     The element list ordered by the option
         void ApplySort(List<T> t, string option);
+        //
+        // Summary:
+        //     Register the sorting rule
+        //
+        // Parameters:
+        //   option:
+        //     The name of sorting rule
+        //
+        //   rule: 
+        //     The sorting rule, it must be an implement of IComparer<T>
+        void RegisterSortRule(string option, IComparer<T> sortRule);
+        //
+        // Summary:
+        //     Unregister the sorting rule
+        //
+        // Parameters:
+        //   option:
+        //     The name of sorting rule to remove
+        void UnregisterSortRule(string option);
     }
 }
