@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WooliesXChallenge.Models;
 using WooliesXChallenge.Services.Interfaces;
 using WooliesXChallenge.Services.ProductComparer;
@@ -11,11 +12,13 @@ namespace WooliesXChallenge.Services
     //
     public class ProductSortManager : ISortManager<Product>
     {
-        private readonly Dictionary<string, IComparerFactory<Product>> _sorterDict;
+        private readonly Dictionary<string, Comparison<Product>> _plainSorterDict;
+        private readonly Dictionary<string, IComparerFactory<Product>> _complexSorterDict;
 
         public ProductSortManager()
         {
-            _sorterDict = new Dictionary<string, IComparerFactory<Product>>();
+            _plainSorterDict = new Dictionary<string, Comparison<Product>>();
+            _complexSorterDict = new Dictionary<string, IComparerFactory<Product>>();
         }
         //
         // Summary:
@@ -32,11 +35,36 @@ namespace WooliesXChallenge.Services
         public void ApplySort(List<Product> products, string option)
         {
             var sortOption = option.ToLower();
-            if(!string.IsNullOrEmpty(option) && _sorterDict.ContainsKey(option.ToLower()))
+            if(!string.IsNullOrEmpty(option))
             {
-                products.Sort(_sorterDict[sortOption].Create().Compare);
+                if (_plainSorterDict.ContainsKey(sortOption))
+                {
+                    products.Sort(_plainSorterDict[sortOption]);
+                    return;
+                }
+                else if(_complexSorterDict.ContainsKey(sortOption))
+                {
+                    products.Sort(_complexSorterDict[sortOption].Create().Compare);
+                } 
             }
         }
+
+        public void RegisterComplexSorter(string option, IComparerFactory<Product> sorter)
+        {
+            if (_plainSorterDict.ContainsKey(option))
+            {
+                throw new Exception($"[{option}] has already exist in _plainSorterDict");
+            }
+            if (!_complexSorterDict.ContainsKey(option))
+            {
+                _complexSorterDict.Add(option, sorter);
+            }
+            else
+            {
+                _complexSorterDict[option] = sorter;
+            }
+        }
+
         //
         // Summary:
         //     Register the sorting rule
@@ -47,15 +75,19 @@ namespace WooliesXChallenge.Services
         //
         //   rule: 
         //     The sorting rule, it must be an implement of IComparer<Product>
-        public void RegisterSortRule(string option, IComparerFactory<Product> sorter)
+        public void RegisterPlainSorter(string option, Comparison<Product> sorter)
         {
-            if (!_sorterDict.ContainsKey(option))
+            if (_complexSorterDict.ContainsKey(option))
             {
-                _sorterDict.Add(option, sorter);
+                throw new Exception($"[{option}] has already exist in _complexSorterDict");
+            }
+            if (!_plainSorterDict.ContainsKey(option))
+            {
+                _plainSorterDict.Add(option, sorter);
             }
             else
             {
-                _sorterDict[option] = sorter;
+                _plainSorterDict[option] = sorter;
             }
         }
         //
@@ -67,7 +99,14 @@ namespace WooliesXChallenge.Services
         //     The name of sorting rule to remove
         public void UnregisterSortRule(string option)
         {
-            _sorterDict.Remove(option);
+            if (_plainSorterDict.ContainsKey(option))
+            {
+                _plainSorterDict.Remove(option);
+            }
+            else
+            {
+                _complexSorterDict.Remove(option);
+            }
         }
     }
 }

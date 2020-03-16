@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WooliesXChallenge.Services.ProductComparer;
 
 namespace WooliesXChallenge.Services.Interfaces
@@ -27,22 +28,33 @@ namespace WooliesXChallenge.Services.Interfaces
         void ApplySort(List<T> t, string option);
         //
         // Summary:
-        //     Register the sorting rule
+        //     Register plain sorting logic
         //
         // Parameters:
         //   option:
-        //     The name of sorting rule
+        //     The name of sorting logic
         //
         //   rule: 
-        //     The sorting rule, it must be an implement of IComparer<T>
-        void RegisterSortRule(string option, IComparerFactory<T> sorter);
+        //     The plain sorting logic, it must be Comparison<T>
+        void RegisterPlainSorter(string option, Comparison<T> sorter);
         //
         // Summary:
-        //     Unregister the sorting rule
+        //     Register complex sorting logic
         //
         // Parameters:
         //   option:
-        //     The name of sorting rule to remove
+        //     The name of sorting logic
+        //
+        //   rule: 
+        //     The complex sorting logic, it must be IComparerFactory<T>
+        void RegisterComplexSorter(string option, IComparerFactory<T> sorter);
+        //
+        // Summary:
+        //     Unregister the sorting logic
+        //
+        // Parameters:
+        //   option:
+        //     The name of sorting logic to remove
         void UnregisterSortRule(string option);
     }
 }

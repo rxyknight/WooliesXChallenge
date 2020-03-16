@@ -12,11 +12,11 @@ namespace WooliesXChallenge.Services
     {
         public static void RegisterAll(ISortManager<Product> sortManager, IPopularityService popularityService)
         {
-            sortManager.RegisterSortRule("low", new ProductPriceLowComparerFactory());
-            sortManager.RegisterSortRule("high", new ProductPriceHighComparerFactory());
-            sortManager.RegisterSortRule("ascending", new ProductNameAscendingComparerFactory());
-            sortManager.RegisterSortRule("descending", new ProductNameDescendingComparerFactory());
-            sortManager.RegisterSortRule("recommended", new ProductRecommendedComparerFactory(popularityService));
+            sortManager.RegisterPlainSorter("low", (x, y) =>x.Price.CompareTo(y.Price));
+            sortManager.RegisterPlainSorter("high", (x, y) => y.Price.CompareTo(x.Price));
+            sortManager.RegisterPlainSorter("ascending", (x, y) => x.Name.CompareTo(y.Name));
+            sortManager.RegisterPlainSorter("descending", (x, y) => y.Name.CompareTo(x.Name));
+            sortManager.RegisterComplexSorter("recommended", new ProductRecommendedComparerFactory(popularityService));
         }
     }
 }
