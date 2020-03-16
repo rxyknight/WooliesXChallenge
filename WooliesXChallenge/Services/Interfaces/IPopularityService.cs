@@ -9,11 +9,10 @@ namespace WooliesXChallenge.Services.Interfaces
     {
         //
         // Summary:
-        //     Get popularity table
+        //     Get popularity table by name
         //
         // Returns:
-        //     A dictionary the key is the name, for example (product name), and the value is its weight representing
-        //     its popularity
-        Dictionary<string, decimal> GetPolularityTable();
+        //     The value incidates the popularity
+        decimal GetPopularityValueByName(string name);
     }
 }

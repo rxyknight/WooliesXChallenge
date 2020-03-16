@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using WooliesXChallenge.Models;
 
-namespace WooliesXChallenge.Services.ProductSortRules
+namespace WooliesXChallenge.Services.ProductComparer
 {
     //
     // Summary:
     //      "High" - High to Low Price
-    public class ProductSortRuleByHigh : IComparer<Product>
+    public class ProductPriceHighComparer : IComparer<Product>
     {
         public int Compare(Product x, Product y)
         {

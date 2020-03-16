@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using WooliesXChallenge.Models;
 using WooliesXChallenge.Services.Interfaces;
-using WooliesXChallenge.Services.ProductSortRules;
+using WooliesXChallenge.Services.ProductComparer;
 
 namespace WooliesXChallenge.Services
 {
@@ -11,11 +11,11 @@ namespace WooliesXChallenge.Services
     //
     public class ProductSortManager : ISortManager<Product>
     {
-        private readonly Dictionary<string, IComparer<Product>> _sortRules;
+        private readonly Dictionary<string, IComparerFactory<Product>> _sorterDict;
 
         public ProductSortManager()
         {
-            _sortRules = new Dictionary<string, IComparer<Product>>();
+            _sorterDict = new Dictionary<string, IComparerFactory<Product>>();
         }
         //
         // Summary:
@@ -32,9 +32,9 @@ namespace WooliesXChallenge.Services
         public void ApplySort(List<Product> products, string option)
         {
             var sortOption = option.ToLower();
-            if(!string.IsNullOrEmpty(option) && _sortRules.ContainsKey(option.ToLower()))
+            if(!string.IsNullOrEmpty(option) && _sorterDict.ContainsKey(option.ToLower()))
             {
-                products.Sort(_sortRules[sortOption]);
+                products.Sort(_sorterDict[sortOption].Create().Compare);
             }
         }
         //
@@ -47,15 +47,15 @@ namespace WooliesXChallenge.Services
         //
         //   rule: 
         //     The sorting rule, it must be an implement of IComparer<Product>
-        public void RegisterSortRule(string option, IComparer<Product> rule)
+        public void RegisterSortRule(string option, IComparerFactory<Product> sorter)
         {
-            if (!_sortRules.ContainsKey(option))
+            if (!_sorterDict.ContainsKey(option))
             {
-                _sortRules.Add(option, rule);
+                _sorterDict.Add(option, sorter);
             }
             else
             {
-                _sortRules[option] = rule;
+                _sorterDict[option] = sorter;
             }
         }
         //
@@ -67,7 +67,7 @@ namespace WooliesXChallenge.Services
         //     The name of sorting rule to remove
         public void UnregisterSortRule(string option)
         {
-            _sortRules.Remove(option);
+            _sorterDict.Remove(option);
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using WooliesXChallenge.Models;
 
-namespace WooliesXChallenge.Services.ProductSortRules
+namespace WooliesXChallenge.Services.ProductComparer
 {
     //
     // Summary:
     //      "Descending" - Z - A sort on the Name
-    public class ProductSortRuleByDescending : IComparer<Product>
+    public class ProductNameDescendingComparer : IComparer<Product>
     {
         public int Compare(Product x, Product y)
         {

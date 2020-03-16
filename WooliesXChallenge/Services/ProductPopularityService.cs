@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,16 +16,37 @@ namespace WooliesXChallenge.Services
     // Summary:
     //      This class is an implement of IPopularityService,
     //      is used to deal with any business logic related to product popularity
-    public class ProductPopularityService : IPopularityService, IHostedService, IDisposable
+    public class ProductPopularityService : IPopularityService, IDisposable
     {
 
         private readonly IConfiguration _configuration;
+        private readonly Timer _scheduler;
+        private volatile IDictionary<string, decimal> _productPopularityTableCache;
 
         public ProductPopularityService(IConfiguration configuration)
         {
             _configuration = configuration;
+            _productPopularityTableCache = GetPolularityTable();
+            _scheduler = new Timer(FetchData, null, TimeSpan.Zero,
+                TimeSpan.FromSeconds(3600));
         }
 
+
+        private void FetchData(object state)
+        {
+            Console.WriteLine($"Start fetching data..");
+            _productPopularityTableCache = GetPolularityTable();
+        }
+
+
+        public decimal GetPopularityValueByName(string name)
+        {
+            if (_productPopularityTableCache.ContainsKey(name))
+            {
+                return _productPopularityTableCache[name];
+            }
+            return -1;
+        }
         //
         // Summary:
         //     Get product popularity table
@@ -33,7 +55,7 @@ namespace WooliesXChallenge.Services
         //     A dictionary the key is product name, and the value is its weight representing
         //     its popularity, the product popularity comes from the shopper history, and the 
         //     total sales quantity is the weight.
-        public Dictionary<string, decimal> GetPolularityTable()
+        private IDictionary<string, decimal> GetPolularityTable()
         {
             // Prepare the request
             var client = new RestClient(_configuration["Resource:ShopperHistoryAPI"]);
@@ -71,35 +93,10 @@ namespace WooliesXChallenge.Services
 
         }
 
-        private Timer _timer;
-
-        public Task StartAsync(CancellationToken cancellationToken)
-        {
-            Console.WriteLine("Timed Background Service is starting.");
-
-            _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                TimeSpan.FromSeconds(5));
-
-            return Task.CompletedTask;
-        }
-
-        private void DoWork(object state)
-        {
-            Console.WriteLine("Timed Background Service is working.");
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            Console.WriteLine("Timed Background Service is stopping.");
-
-            _timer?.Change(Timeout.Infinite, 0);
-
-            return Task.CompletedTask;
-        }
-
         public void Dispose()
         {
-            _timer?.Dispose();
+            _scheduler?.Dispose();
         }
+
     }
 }

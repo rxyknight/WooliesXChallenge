@@ -18,8 +18,8 @@ namespace WooliesXChallengeTest
         public void GetPolularityTable()
         {
             var popularityService = new ProductPopularityService(_configuration);
-            var popularityTable = popularityService.GetPolularityTable();
-            Assert.NotEmpty(popularityTable);
+            var ap = popularityService.GetPopularityValueByName("Test Product A");
+            Assert.Equal(6m, ap);
         }
 
 

@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using WooliesXChallenge.Models;
 using WooliesXChallenge.Services;
-using WooliesXChallenge.Services.ProductSortRules;
+using WooliesXChallenge.Services.ProductComparer;
 using Xunit;
 
 namespace WooliesXChallengeTest
@@ -21,7 +21,7 @@ namespace WooliesXChallengeTest
         public void ApplySortByLowTest(List<Product> products)
         {
             var productSortManager = new ProductSortManager();
-            productSortManager.RegisterSortRule("low", new ProductSortRuleByLow());
+            productSortManager.RegisterSortRule("low", new ProductPriceLowComparerFactory());
 
             productSortManager.ApplySort(products, "Low");
             Assert.Equal(5m, products[0].Price);
@@ -36,7 +36,7 @@ namespace WooliesXChallengeTest
         public void ApplySortByHighTest(List<Product> products)
         {
             var productSortManager = new ProductSortManager();
-            productSortManager.RegisterSortRule("high", new ProductSortRuleByHigh());
+            productSortManager.RegisterSortRule("high", new ProductPriceHighComparerFactory());
 
             productSortManager.ApplySort(products, "High");
             Assert.Equal(999999999999m, products[0].Price);
@@ -51,7 +51,7 @@ namespace WooliesXChallengeTest
         public void ApplySortByAscendingTest(List<Product> products)
         {
             var productSortManager = new ProductSortManager();
-            productSortManager.RegisterSortRule("ascending", new ProductSortRuleByAscending());
+            productSortManager.RegisterSortRule("ascending", new ProductNameAscendingComparerFactory());
 
             productSortManager.ApplySort(products, "Ascending");
             Assert.Equal("Test Product A", products[0].Name);
@@ -66,7 +66,7 @@ namespace WooliesXChallengeTest
         public void ApplySortByDescendingTest(List<Product> products)
         {
             var productSortManager = new ProductSortManager();
-            productSortManager.RegisterSortRule("descending", new ProductSortRuleByDescending());
+            productSortManager.RegisterSortRule("descending", new ProductNameDescendingComparerFactory());
 
             productSortManager.ApplySort(products, "Descending");
             Assert.Equal("Test Product F", products[0].Name);
@@ -82,7 +82,7 @@ namespace WooliesXChallengeTest
         {
             var popularityService = new ProductPopularityService(_configuration);
             var productSortManager = new ProductSortManager();
-            productSortManager.RegisterSortRule("recommended", new ProductSortRuleByRecommended(popularityService));
+            productSortManager.RegisterSortRule("recommended", new ProductRecommendedComparerFactory(popularityService));
 
             productSortManager.ApplySort(products, "Recommended");
             Assert.Equal("Test Product A", products[0].Name);

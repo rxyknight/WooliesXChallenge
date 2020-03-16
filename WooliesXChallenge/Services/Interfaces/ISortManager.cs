@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WooliesXChallenge.Services.ProductComparer;
 
 namespace WooliesXChallenge.Services.Interfaces
 {
@@ -34,7 +35,7 @@ namespace WooliesXChallenge.Services.Interfaces
         //
         //   rule: 
         //     The sorting rule, it must be an implement of IComparer<T>
-        void RegisterSortRule(string option, IComparer<T> sortRule);
+        void RegisterSortRule(string option, IComparerFactory<T> sorter);
         //
         // Summary:
         //     Unregister the sorting rule

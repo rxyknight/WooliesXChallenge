@@ -29,7 +29,7 @@ namespace WooliesXChallenge
             services.AddSingleton<IPopularityService, ProductPopularityService>();
             services.AddSingleton<ITrolleyService, TrolleyAPIService>();
 
-            services.AddHostedService<ProductPopularityService>();
+            //services.AddHostedService<ProductPopularityService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +49,7 @@ namespace WooliesXChallenge
             app.UseHttpsRedirection();
             app.UseMvc();
 
-            ProductSortFactory.Init(sortManager, popularityService);
+            ProductSortRegister.RegisterAll(sortManager, popularityService);
         }
     }
 }
