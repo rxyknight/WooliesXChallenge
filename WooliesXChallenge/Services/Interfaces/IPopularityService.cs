@@ -14,5 +14,6 @@ namespace WooliesXChallenge.Services.Interfaces
         // Returns:
         //     The value incidates the popularity
         decimal GetPopularityValueByName(string name);
+        IDictionary<string, decimal> GetPolularityTable();
     }
 }

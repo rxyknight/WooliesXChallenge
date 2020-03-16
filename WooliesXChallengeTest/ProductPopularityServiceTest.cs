@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using WooliesXChallenge.Cache;
 using WooliesXChallenge.Services;
 using Xunit;
 
@@ -17,9 +18,10 @@ namespace WooliesXChallengeTest
         [Fact]
         public void GetPolularityTable()
         {
-            var popularityService = new ProductPopularityService(_configuration);
-            var ap = popularityService.GetPopularityValueByName("Test Product A");
-            Assert.Equal(6m, ap);
+            var popularityService = new ProductPopularityService(_configuration, new ProductPopularityCache());
+            var table = popularityService.GetPolularityTable();
+            Assert.NotNull(table);
+            Assert.NotEmpty(table);
         }
 
 

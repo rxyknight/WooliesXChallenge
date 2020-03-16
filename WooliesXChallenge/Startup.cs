@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WooliesXChallenge.Cache;
 using WooliesXChallenge.Models;
 using WooliesXChallenge.Services;
+using WooliesXChallenge.Services.BackgroundTasks;
 using WooliesXChallenge.Services.Interfaces;
 
 namespace WooliesXChallenge
@@ -24,12 +26,13 @@ namespace WooliesXChallenge
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // Dependence Injection
+            services.AddSingleton<IProductPopularityCache, ProductPopularityCache>();
             services.AddSingleton<IProductService, ProductService>();
             services.AddSingleton<ISortManager<Product>, ProductSortManager>();
             services.AddSingleton<IPopularityService, ProductPopularityService>();
             services.AddSingleton<ITrolleyService, TrolleyAPIService>();
 
-            //services.AddHostedService<ProductPopularityService>();
+            services.AddHostedService<RefreshCacheTask>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

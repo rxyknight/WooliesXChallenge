@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using WooliesXChallenge.Cache;
 using WooliesXChallenge.Models;
 using WooliesXChallenge.Services;
 using WooliesXChallenge.Services.ProductComparer;
@@ -80,16 +81,25 @@ namespace WooliesXChallengeTest
         [MemberData(nameof(Data))]
         public void ApplySortByRecommendedTest(List<Product> products)
         {
-            var popularityService = new ProductPopularityService(_configuration);
+            var cache = new ProductPopularityCache();
+            cache.Refresh(new Dictionary<string, decimal>()
+            {
+                {"Test Product A", 1.0m },
+                {"Test Product B", 2.0m },
+                {"Test Product C", 3.0m },
+                {"Test Product D", 4.0m },
+                {"Test Product F", 5.0m },
+            });
+            var popularityService = new ProductPopularityService(_configuration, cache);
             var productSortManager = new ProductSortManager();
             productSortManager.RegisterSortRule("recommended", new ProductRecommendedComparerFactory(popularityService));
 
             productSortManager.ApplySort(products, "Recommended");
-            Assert.Equal("Test Product A", products[0].Name);
-            Assert.Equal("Test Product B", products[1].Name);
-            Assert.Equal("Test Product F", products[2].Name);
-            Assert.Equal("Test Product C", products[3].Name);
-            Assert.Equal("Test Product D", products[4].Name);
+            Assert.Equal("Test Product F", products[0].Name);
+            Assert.Equal("Test Product D", products[1].Name);
+            Assert.Equal("Test Product C", products[2].Name);
+            Assert.Equal("Test Product B", products[3].Name);
+            Assert.Equal("Test Product A", products[4].Name);
         }
 
         public static IEnumerable<object[]> Data =>
