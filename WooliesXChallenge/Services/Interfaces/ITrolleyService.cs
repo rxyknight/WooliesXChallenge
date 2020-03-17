@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using WooliesXChallenge.Models;
 
 namespace WooliesXChallenge.Services.Interfaces
 {
@@ -19,5 +20,6 @@ namespace WooliesXChallenge.Services.Interfaces
         // Returns:
         //     The lowest possible total price
         decimal CalculateTrolleyTotal(JToken request);
+        decimal CalculateTrolleyTotalLocal(Trolley trolley);
     }
 }

@@ -2,6 +2,8 @@
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
+using WooliesXChallenge.Models;
+using WooliesXChallenge.Services.Helpers;
 using WooliesXChallenge.Services.Interfaces;
 
 namespace WooliesXChallenge.Services
@@ -9,10 +11,10 @@ namespace WooliesXChallenge.Services
     //
     // Summary:
     //      This class is an implement of ITrolleyService, and it contains the business logic related to trolley in details
-    public class TrolleyAPIService : ITrolleyService
+    public class TrolleyService : ITrolleyService
     {
         private readonly IConfiguration _configuration;
-        public TrolleyAPIService(IConfiguration configuration)
+        public TrolleyService(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -46,6 +48,12 @@ namespace WooliesXChallenge.Services
                 throw new Exception("Call trolleyCalculator API error");
             }
             return decimal.Parse(response.Content);
+        }
+
+        public decimal CalculateTrolleyTotalLocal(Trolley trolley)
+        {
+            var calculator = new TrolleyCalculator(trolley);
+            return calculator.CalculateLowestTotal();
         }
     }
 }

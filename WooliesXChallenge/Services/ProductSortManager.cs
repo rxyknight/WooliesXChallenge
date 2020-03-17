@@ -45,7 +45,7 @@ namespace WooliesXChallenge.Services
                 else if(_complexSorterDict.ContainsKey(sortOption))
                 {
                     products.Sort(_complexSorterDict[sortOption].Create().Compare);
-                } 
+                }
             }
         }
 

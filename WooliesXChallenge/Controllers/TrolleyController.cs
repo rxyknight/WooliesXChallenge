@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using WooliesXChallenge.Models;
 using WooliesXChallenge.Services.Interfaces;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,6 +22,12 @@ namespace WooliesXChallenge.Controllers
         public IActionResult Post([FromBody]JToken request)
         {
             return Ok(_trolleyService.CalculateTrolleyTotal(request));
+        }
+
+        [HttpPost("api/v2/trolley/trolleyTotal")]
+        public IActionResult Post2([FromBody]Trolley trolley)
+        {
+            return Ok(_trolleyService.CalculateTrolleyTotalLocal(trolley));
         }
     }
 }

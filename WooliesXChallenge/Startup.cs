@@ -30,7 +30,7 @@ namespace WooliesXChallenge
             services.AddSingleton<IProductService, ProductService>();
             services.AddSingleton<ISortManager<Product>, ProductSortManager>();
             services.AddSingleton<IPopularityService, ProductPopularityService>();
-            services.AddSingleton<ITrolleyService, TrolleyAPIService>();
+            services.AddSingleton<ITrolleyService, TrolleyService>();
 
             services.AddHostedService<RefreshCacheTask>();
         }
