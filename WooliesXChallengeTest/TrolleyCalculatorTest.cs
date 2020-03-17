@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using WooliesXChallenge.Models;
 using WooliesXChallenge.Services.Helpers;
 using Xunit;

@@ -7,19 +7,19 @@ using WooliesXChallenge.Services.Interfaces;
 
 namespace WooliesXChallenge.Services.ProductComparer
 {
-    public interface IComparerFactory<T>
+    public interface ISort<T>
     {
-        IComparer<T> Create();
+        IComparer<T> CreateComparer();
     }
 
-    public class ProductRecommendedComparerFactory : IComparerFactory<Product>
+    public class ProductRecommendedSort : ISort<Product>
     {
         private readonly IPopularityService _popularityService;
-        public ProductRecommendedComparerFactory(IPopularityService popularityService)
+        public ProductRecommendedSort(IPopularityService popularityService)
         {
             _popularityService = popularityService;
         }
-        public IComparer<Product> Create()
+        public IComparer<Product> CreateComparer()
         {
             return new ProductRecommendedComparer(_popularityService);
         }

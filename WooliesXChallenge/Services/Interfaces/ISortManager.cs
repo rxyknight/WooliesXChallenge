@@ -46,8 +46,8 @@ namespace WooliesXChallenge.Services.Interfaces
         //     The name of sorting logic
         //
         //   rule: 
-        //     The complex sorting logic, it must be IComparerFactory<T>
-        void RegisterComplexSorter(string option, IComparerFactory<T> sorter);
+        //     The complex sorting logic, it must be ISort<T>
+        void RegisterComplexSorter(string option, ISort<T> sorter);
         //
         // Summary:
         //     Unregister the sorting logic

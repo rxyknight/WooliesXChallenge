@@ -56,7 +56,7 @@ namespace WooliesXChallenge.Services.Helpers
                 LastSpeciaValue = decimal.Zero
             };
             queue.Enqueue(state);
-            decimal lowestTotal = decimal.MaxValue;
+            decimal lowestTotal = CalculatePrice(_productQuantity);
             while(queue.Count != 0)
             {
                 var s = queue.Dequeue();

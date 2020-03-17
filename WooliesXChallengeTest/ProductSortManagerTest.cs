@@ -92,7 +92,7 @@ namespace WooliesXChallengeTest
             });
             var popularityService = new ProductPopularityService(_configuration, cache);
             var productSortManager = new ProductSortManager();
-            productSortManager.RegisterComplexSorter("recommended", new ProductRecommendedComparerFactory(popularityService));
+            productSortManager.RegisterComplexSorter("recommended", new ProductRecommendedSort(popularityService));
 
             productSortManager.ApplySort(products, "Recommended");
             Assert.Equal("Test Product F", products[0].Name);

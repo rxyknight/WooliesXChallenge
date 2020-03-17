@@ -13,12 +13,12 @@ namespace WooliesXChallenge.Services
     public class ProductSortManager : ISortManager<Product>
     {
         private readonly Dictionary<string, Comparison<Product>> _plainSorterDict;
-        private readonly Dictionary<string, IComparerFactory<Product>> _complexSorterDict;
+        private readonly Dictionary<string, ISort<Product>> _complexSorterDict;
 
         public ProductSortManager()
         {
             _plainSorterDict = new Dictionary<string, Comparison<Product>>();
-            _complexSorterDict = new Dictionary<string, IComparerFactory<Product>>();
+            _complexSorterDict = new Dictionary<string, ISort<Product>>();
         }
         //
         // Summary:
@@ -44,12 +44,12 @@ namespace WooliesXChallenge.Services
                 }
                 else if(_complexSorterDict.ContainsKey(sortOption))
                 {
-                    products.Sort(_complexSorterDict[sortOption].Create().Compare);
+                    products.Sort(_complexSorterDict[sortOption].CreateComparer().Compare);
                 }
             }
         }
 
-        public void RegisterComplexSorter(string option, IComparerFactory<Product> sorter)
+        public void RegisterComplexSorter(string option, ISort<Product> sorter)
         {
             if (_plainSorterDict.ContainsKey(option))
             {
