@@ -21,6 +21,8 @@ Coding challenge from WooliesX, using .Net Core 2.2
 
 ## Project structure
 
+![](image/ProjectDiagram.PNG)
+
 ### WolliesXchallenge
 
 * Controllers: Entry point
