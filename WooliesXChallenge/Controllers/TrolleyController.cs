@@ -24,6 +24,8 @@ namespace WooliesXChallenge.Controllers
             return Ok(_trolleyService.CalculateTrolleyTotal(request));
         }
 
+        // GET api/v2/trolley/trolleyTotal
+        // This answer the option question for exercise3
         [HttpPost("api/v2/trolley/trolleyTotal")]
         public IActionResult Post2([FromBody]Trolley trolley)
         {

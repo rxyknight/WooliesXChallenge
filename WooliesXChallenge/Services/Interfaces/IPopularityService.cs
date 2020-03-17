@@ -4,16 +4,25 @@ namespace WooliesXChallenge.Services.Interfaces
 {
     //
     // Summary:
-    //      This interface is used to deal with any business logic related to popularity, for example, product popularity
+    //      This interface is used to deal with any business logic related to popularity
     public interface IPopularityService
     {
         //
         // Summary:
-        //     Get popularity table by name
+        //     Get popularity value by name
+        // Parameters:
+        //   name: name
         //
         // Returns:
-        //     The value incidates the popularity
+        //     A dictionary incidates the popularity
         decimal GetPopularityValueByName(string name);
+
+        //
+        // Summary:
+        //     Get all popularity
+        //
+        // Returns:
+        //     A dictionary that the key is the name, value is the corresponding popularity 
         IDictionary<string, decimal> GetPolularityTable();
     }
 }

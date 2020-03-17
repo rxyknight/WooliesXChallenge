@@ -10,7 +10,7 @@ namespace WooliesXChallenge.Services.Interfaces
     {
         //
         // Summary:
-        //     Calculate the lowest possible total price in the trolley
+        //     Calculate the lowest possible total price in the trolley, the calculation is processed remotely
         //
         // Parameters:
         //   request:
@@ -20,6 +20,17 @@ namespace WooliesXChallenge.Services.Interfaces
         // Returns:
         //     The lowest possible total price
         decimal CalculateTrolleyTotal(JToken request);
+
+        //
+        // Summary:
+        //     Calculate the lowest possible total price in the trolley, the calculation is processed locally 
+        //
+        // Parameters:
+        //   request:
+        //     All the trolley information which includes lists of prices, specials and quantities
+        //
+        // Returns:
+        //     The lowest possible total price
         decimal CalculateTrolleyTotalLocal(Trolley trolley);
     }
 }

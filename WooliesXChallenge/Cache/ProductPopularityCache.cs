@@ -6,9 +6,31 @@ using System.Threading.Tasks;
 
 namespace WooliesXChallenge.Cache
 {
+    //
+    // Summary:
+    //      This is a cache layer's interface, the popularity data can be stored into the cache 
+    //      to improve the query performance.
     public interface IProductPopularityCache
     {
+        //
+        // Summary:
+        //     Get popularity by name
+        //
+        // Parameters:
+        //   key:
+        //     The product's name
+        //
+        // Returns:
+        //     The product's popularity
         decimal Get(string key);
+        //
+        // Summary:
+        //     Refresh the cache
+        //
+        // Parameters:
+        //   newData:
+        //     The new cache data
+        //
         void Refresh(IDictionary<string, decimal> newData);
     }
 
