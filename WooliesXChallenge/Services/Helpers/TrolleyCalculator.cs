@@ -6,19 +6,9 @@ using WooliesXChallenge.Models;
 
 namespace WooliesXChallenge.Services.Helpers
 {
-    class State
-    {
-        public Dictionary<string, decimal> ProductsRest { get; set; }
-        public HashSet<int> AvailableRuleIndexSet { get; set; }
-        public decimal LastSpeciaValue { get; set; }
-    }
-
-    class Rule
-    {
-        public Dictionary<string, decimal> RuleItems { get; set; }
-        public decimal RuleResult { get; set; }
-    }
-
+    //  Summary:
+    //      This class this the main algorithm to do the trolley calculation to get the lowest price.
+    //      This algorithm used the BFS (Breadth-First Search)
     public class TrolleyCalculator
     {
         private readonly Dictionary<string, decimal> _productPrice = new Dictionary<string, decimal>();
@@ -146,4 +136,17 @@ namespace WooliesXChallenge.Services.Helpers
         private bool CanApply(Dictionary<string, decimal> products, Rule rule)
             => rule.RuleItems.All(x => products.ContainsKey(x.Key) && products[x.Key] >= x.Value);
     }
+    class State
+    {
+        public Dictionary<string, decimal> ProductsRest { get; set; }
+        public HashSet<int> AvailableRuleIndexSet { get; set; }
+        public decimal LastSpeciaValue { get; set; }
+    }
+
+    class Rule
+    {
+        public Dictionary<string, decimal> RuleItems { get; set; }
+        public decimal RuleResult { get; set; }
+    }
+
 }

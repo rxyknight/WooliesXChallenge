@@ -11,6 +11,8 @@ Coding challenge from WooliesX, using .Net Core 2.2
 * Exercise 1: [https://wooliesxchallenge20200313045751.azurewebsites.net/api]()
 * Exercise 2: [https://wooliesxchallenge20200313045751.azurewebsites.net/api/product]()
 * Exercise 3: [https://wooliesxchallenge20200313045751.azurewebsites.net/api/trolley]()
+* Extra for Experts: [https://wooliesxchallenge20200313045751.azurewebsites.net/api/v2/trolley]()
+
 
 ## Main libraries from NuGet
 * RestSharp: used for calling APIs
@@ -24,6 +26,7 @@ Coding challenge from WooliesX, using .Net Core 2.2
 * Controllers: Entry point
 * Models: Data model
 * Services: Business logic layer
+* Cache: Cache layer (Cache the popularity data)
 
 ### WolliesXchallengeTest
 
@@ -31,3 +34,4 @@ Provide unit test
 
 * ProductPopularityServiceTest: Test the logic to generate popularity table
 * ProductSortManagerTest: Test sorting product logic
+* TrolleyCalculatorTest: The the trolley calculation algorithm
